@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cumpleaños COONARTAX</title>
+    <style>
+        :root {
+            --primary-color: #3b82f6;
+            --secondary-color: #1e40af;
+            --accent-color: #10b981;
+            --light-bg: #f0f9ff;
+            --card-bg: #ffffff;
+            --text-color: #1f2937;
+            --text-secondary: #6b7280;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--light-bg), #e0f2fe);
+            color: var(--text-color);
+            min-height: 100vh;
+            padding: 1rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .current-date {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background-color: var(--secondary-color);
+            color: white;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        
+        .current-date span {
+            margin-right: 0.5rem;
+        }
+        
+        h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+        
+        .birthdays-month {
+            background: linear-gradient(90deg, #f0fdf4, #ecfdf5);
+            border: 1px solid #bbf7d0;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .birthdays-month h3 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #065f46;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .birthdays-month h3 span {
+            margin-right: 0.5rem;
+        }
+        
+        .birthdays-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 0.75rem;
+        }
+        
+        .birthday-item-small {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem;
+            background-color: white;
+            border-radius: 0.5rem;
+        }
+        
+        .day-circle {
+            width: 2rem;
+            height: 2rem;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-right: 0.75rem;
+        }
+        
+        .filters {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .filters {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .form-group {
+            margin-bottom: 0.5rem;
+        }
+        
+        label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        select, input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+        
+        .birthday-list {
+            display: grid;
+            gap: 1rem;
+        }
+        
+        .birthday-item {
+            background: linear-gradient(90deg, #eff6ff, #dbeafe);
+            border-left: 4px solid var(--primary-color);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            transition: box-shadow 0.3s ease;
+        }
+        
+        .birthday-item:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .birthday-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .birthday-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .avatar {
+            width: 3rem;
+            height: 3rem;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.125rem;
+        }
+        
+        .birthday-details h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .birthday-date {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .month-tag {
+            background-color: #dbeafe;
+            color: #1d4ed8;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+        }
+        
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .empty-state h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .empty-state p {
+            color: var(--text-secondary);
+        }
+        
+        .count {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--text-secondary);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="header">
+                <div class="current-date">
+                    <span>📅</span>
+                    <span id="current-date">Cargando fecha...</span>
+                </div>
+                <h1>🎂 Cumpleaños COONARTAX</h1>
+                <p class="subtitle">Consulta las fechas de cumpleaños de directivos y empleados</p>
+            </div>
+            
+            <div id="birthdays-this-month"></div>
+            
+            <div class="filters">
+                <div class="form-group">
+                    <label for="month-filter">Filtrar por mes</label>
+                    <select id="month-filter">
+                        <option value="">Todos los meses</option>
+                        <option value="enero">Enero</option>
+                        <option value="febrero">Febrero</option>
+                        <option value="marzo">Marzo</option>
+                        <option value="abril">Abril</option>
+                        <option value="mayo">Mayo</option>
+                        <option value="junio">Junio</option>
+                        <option value="julio">Julio</option>
+                        <option value="agosto">Agosto</option>
+                        <option value="septiembre">Septiembre</option>
+                        <option value="octubre">Octubre</option>
+                        <option value="diciembre">Diciembre</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="search-input">Buscar por nombre o fecha</label>
+                    <input type="text" id="search-input" placeholder="Buscar...">
+                </div>
+            </div>
+            
+            <div id="birthday-list" class="birthday-list">
+                <!-- Los cumpleaños se cargarán aquí dinámicamente -->
+            </div>
+            
+            <div id="count" class="count"></div>
+        </div>
+        
+        <footer>
+            <p>Desarrollado por William Salazar</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Datos de cumpleaños
+            const birthdays = [
+                { date: '27-ene', name: 'Ramiro Herrera', month: 'enero' },
+                { date: '30-ene', name: 'Diego Mora', month: 'enero' },
+                { date: '9-feb', name: 'Don Bayardo Eraso', month: 'febrero' },
+                { date: '21-feb', name: 'Diana Quintero', month: 'febrero' },
+                { date: '6-mar', name: 'Yamit Linares', month: 'marzo' },
+                { date: '14-mar', name: 'Jaime Bastidas', month: 'marzo' },
+                { date: '17-mar', name: 'Angela Villarreal', month: 'marzo' },
+                { date: '22-mar', name: 'Wilson Mora', month: 'marzo' },
+                { date: '26-mar', name: 'Milena Gonzalez', month: 'marzo' },
+                { date: '10-abr', name: 'Fernando Chamorro', month: 'abril' },
+                { date: '15-abr', name: 'Alejandra Florez', month: 'abril' },
+                { date: '7-may', name: 'Elizabeth Rosero', month: 'mayo' },
+                { date: '12-may', name: 'Don Wilson Diaz', month: 'mayo' },
+                { date: '17-jun', name: 'Darcy Valentina', month: 'junio' },
+                { date: '3-jul', name: 'Don Jorge Meza', month: 'julio' },
+                { date: '25-jul', name: 'Don Victor Orejuela', month: 'julio' },
+                { date: '4-ago', name: 'Andrea Cabrera', month: 'agosto' },
+                { date: '23-ago', name: 'Leydi Bastidas', month: 'agosto' },
+                { date: '24-ago', name: 'Dra. Alexandra', month: 'agosto' },
+                { date: '25-ago', name: 'Alemao Rosero', month: 'agosto' },
+                { date: '10-sep', name: 'Adali Delgado', month: 'septiembre' },
+                { date: '28-sep', name: 'Andres Morales', month: 'septiembre' },
+                { date: '29-sep', name: 'Doña Albita', month: 'septiembre' },
+                { date: '12-oct', name: 'Alexander Velasco', month: 'octubre' },
+                { date: '4-dic', name: 'Don Luis Maya', month: 'diciembre' },
+                { date: '15-dic', name: 'Don Luis Sanchez', month: 'diciembre' },
+                { date: '24-dic', name: 'William Salazar', month: 'diciembre' }
+            ];
+            
+            // Elementos del DOM
+            const currentDateElement = document.getElementById('current-date');
+            const birthdaysThisMonthElement = document.getElementById('birthdays-this-month');
+            const birthdayListElement = document.getElementById('birthday-list');
+            const countElement = document.getElementById('count');
+            const monthFilter = document.getElementById('month-filter');
+            const searchInput = document.getElementById('search-input');
+            
+            // Función para formatear fecha en español
+            function formatDateToSpanish(date) {
+                const months = [
+                    'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+                    'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+                ];
+                return `${date.getDate()} de ${months[date.getMonth()]} de ${date.getFullYear()}`;
+            }
+            
+            // Función para obtener el nombre del mes completo
+            function getMonthName(monthAbbr) {
+                const monthMap = {
+                    'ene': 'Enero',
+                    'feb': 'Febrero',
+                    'mar': 'Marzo',
+                    'abr': 'Abril',
+                    'may': 'Mayo',
+                    'jun': 'Junio',
+                    'jul': 'Julio',
+                    'ago': 'Agosto',
+                    'sep': 'Septiembre',
+                    'oct': 'Octubre',
+                    'dic': 'Diciembre'
+                };
+                return monthMap[monthAbbr] || monthAbbr;
+            }
+            
+            // Función para formatear la fecha de cumpleaños
+            function formatDate(dateStr) {
+                const [day, monthAbbr] = dateStr.split('-');
+                return `${day} de ${getMonthName(monthAbbr)}`;
+            }
+            
+            // Actualizar fecha actual
+            function updateCurrentDate() {
+                const now = new Date();
+                currentDateElement.textContent = formatDateToSpanish(now);
+                
+                // Establecer el mes actual como filtro por defecto
+                const currentMonth = [
+                    'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+                    'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+                ][now.getMonth()];
+                
+                monthFilter.value = currentMonth;
+                renderBirthdays();
+            }
+            
+            // Mostrar cumpleaños del mes actual
+            function renderBirthdaysThisMonth() {
+                const now = new Date();
+                const currentMonth = [
+                    'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+                    'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+                ][now.getMonth()];
+                
+                const birthdaysThisMonth = birthdays.filter(birthday => birthday.month === currentMonth);
+                
+                if (birthdaysThisMonth.length > 0) {
+                    let html = `
+                        <div class="birthdays-month">
+                            <h3><span>🎉</span> Cumpleaños este mes (${getMonthName(currentMonth.substring(0, 3))})</h3>
+                            <div class="birthdays-grid">
+                    `;
+                    
+                    birthdaysThisMonth.forEach(birthday => {
+                        const day = birthday.date.split('-')[0];
+                        html += `
+                            <div class="birthday-item-small">
+                                <div class="day-circle">${day}</div>
+                                <span class="font-medium">${birthday.name}</span>
+                            </div>
+                        `;
+                    });
+                    
+                    html += `
+                            </div>
+                        </div>
+                    `;
+                    
+                    birthdaysThisMonthElement.innerHTML = html;
+                } else {
+                    birthdaysThisMonthElement.innerHTML = '';
+                }
+            }
+            
+            // Renderizar lista de cumpleaños
+            function renderBirthdays() {
+                const selectedMonth = monthFilter.value;
+                const searchTerm = searchInput.value.toLowerCase();
+                
+                const filteredBirthdays = birthdays.filter(birthday => {
+                    const matchesMonth = !selectedMonth || birthday.month === selectedMonth;
+                    const matchesSearch = !searchTerm || 
+                        birthday.name.toLowerCase().includes(searchTerm) ||
+                        birthday.date.includes(searchTerm);
+                    return matchesMonth && matchesSearch;
+                });
+                
+                if (filteredBirthdays.length > 0) {
+                    let html = '';
+                    
+                    filteredBirthdays.forEach(birthday => {
+                        const firstLetter = birthday.name.charAt(0);
+                        const monthAbbr = birthday.date.split('-')[1];
+                        
+                        html += `
+                            <div class="birthday-item">
+                                <div class="birthday-content">
+                                    <div class="birthday-info">
+                                        <div class="avatar">${firstLetter}</div>
+                                        <div class="birthday-details">
+                                            <h3>${birthday.name}</h3>
+                                            <p class="birthday-date">${formatDate(birthday.date)}</p>
+                                        </div>
+                                    </div>
+                                    <div class="month-tag">${getMonthName(monthAbbr)}</div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    birthdayListElement.innerHTML = html;
+                    countElement.innerHTML = `<p>Mostrando ${filteredBirthdays.length} de ${birthdays.length} cumpleaños</p>`;
+                } else {
+                    birthdayListElement.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">🎂</div>
+                            <h3>No se encontraron cumpleaños</h3>
+                            <p>Intenta con otro filtro o término de búsqueda</p>
+                        </div>
+                    `;
+                    countElement.innerHTML = '';
+                }
+            }
+            
+            // Event listeners
+            monthFilter.addEventListener('change', renderBirthdays);
+            searchInput.addEventListener('input', renderBirthdays);
+            
+            // Inicializar
+            updateCurrentDate();
+            renderBirthdaysThisMonth();
+            
+            // Actualizar cada minuto
+            setInterval(() => {
+                updateCurrentDate();
+            }, 60000);
+        });
+    </script>
+</body>
+</html>
