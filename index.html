@@ -6,215 +6,470 @@
     <title>COCOLAB COONARTAX 2026</title>
     <style>
         :root {
-            --primary: #1e40af; /* Workshop Blue 2026 */
-            --accent: #10b981; /* Soft Teal */
-            --bg-gradient: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            --primary-color: #3b82f6;
+            --secondary-color: #1e40af;
+            --accent-color: #10b981;
+            --light-bg: #f0f9ff;
             --card-bg: #ffffff;
-            --text-main: #1f2937;
-            --text-muted: #6b7280;
+            --text-color: #1f2937;
+            --text-secondary: #6b7280;
         }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
         body {
-            background: var(--bg-gradient);
-            color: var(--text-main);
+            background: linear-gradient(135deg, var(--light-bg), #e0f2fe);
+            color: var(--text-color);
             min-height: 100vh;
-            padding: 2rem 1rem;
+            padding: 1rem;
         }
-
-        .container { max-width: 900px; margin: 0 auto; }
-
-        /* Mejora Interfaz: Header Estilo Lab */
-        .lab-header {
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .header {
             text-align: center;
-            margin-bottom: 3rem;
-            position: relative;
+            margin-bottom: 1.5rem;
         }
-
-        .lab-tag {
-            display: inline-block;
-            background: var(--primary);
+        
+        .current-date {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background-color: var(--secondary-color);
             color: white;
-            padding: 0.25rem 1rem;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 800;
-            letter-spacing: 0.1em;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        
+        .current-date span {
+            margin-right: 0.5rem;
+        }
+        
+        h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--text-color);
             margin-bottom: 0.5rem;
         }
-
-        h1 { font-size: 2.5rem; color: var(--primary); margin-bottom: 0.5rem; }
-
-        .search-container {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        
+        .subtitle {
+            color: var(--text-secondary);
             margin-bottom: 2rem;
-            display: flex;
-            gap: 1rem;
         }
-
-        input, select {
-            flex: 1;
-            padding: 0.75rem;
-            border: 1px solid #e5e7eb;
-            border-radius: 0.5rem;
-            outline: none;
+        
+        .birthdays-month {
+            background: linear-gradient(90deg, #f0fdf4, #ecfdf5);
+            border: 1px solid #bbf7d0;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
         }
-
-        /* Grid de Cumpleaños */
-        .birthday-grid {
-            display: grid;
-            gap: 1rem;
-        }
-
-        .birthday-card {
-            background: white;
-            padding: 1.25rem;
-            border-radius: 1rem;
+        
+        .birthdays-month h3 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #065f46;
+            margin-bottom: 0.75rem;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            transition: transform 0.2s, box-shadow 0.2s;
-            border-left: 5px solid var(--accent);
         }
-
-        .birthday-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        
+        .birthdays-month h3 span {
+            margin-right: 0.5rem;
         }
-
-        .info { display: flex; align-items: center; gap: 1rem; }
-        .avatar {
-            width: 45px; height: 45px;
-            background: #dbeafe;
-            color: var(--primary);
+        
+        .birthdays-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 0.75rem;
+        }
+        
+        .birthday-item-small {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem;
+            background-color: white;
+            border-radius: 0.5rem;
+        }
+        
+        .day-circle {
+            width: 2rem;
+            height: 2rem;
+            background-color: var(--accent-color);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-right: 0.75rem;
         }
-
-        .date-tag {
-            background: #f3f4f6;
-            padding: 0.5rem 1rem;
-            border-radius: 2rem;
+        
+        .filters {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .filters {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .form-group {
+            margin-bottom: 0.5rem;
+        }
+        
+        label {
+            display: block;
             font-size: 0.875rem;
-            font-weight: 600;
-            color: var(--primary);
+            font-weight: 500;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
         }
-
-        .highlight { border-color: #f59e0b; background: #fffbeb; }
-
-        footer { text-align: center; margin-top: 4rem; color: var(--text-muted); font-size: 0.8rem; }
+        
+        select, input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+        
+        .birthday-list {
+            display: grid;
+            gap: 1rem;
+        }
+        
+        .birthday-item {
+            background: linear-gradient(90deg, #eff6ff, #dbeafe);
+            border-left: 4px solid var(--primary-color);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            transition: box-shadow 0.3s ease;
+        }
+        
+        .birthday-item:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .birthday-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .birthday-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .avatar {
+            width: 3rem;
+            height: 3rem;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.125rem;
+        }
+        
+        .birthday-details h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .birthday-date {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .month-tag {
+            background-color: #dbeafe;
+            color: #1d4ed8;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+        }
+        
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .empty-state h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .empty-state p {
+            color: var(--text-secondary);
+        }
+        
+        .count {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--text-secondary);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
     </style>
 </head>
 <body>
-
-<div class="container">
-    <header class="lab-header">
-        <span class="lab-tag">COCOLAB</span>
-        <h1>COONARTAX 2026</h1>
-        <p>Panel de Celebraciones Corporativas</p>
-    </header>
-
-    <div class="search-container">
-        <input type="text" id="searchInput" placeholder="Buscar empleado...">
-        <select id="monthFilter">
-            <option value="">Todos los meses</option>
-            <option value="01">Enero</option>
-            <option value="02">Febrero</option>
-            <option value="03">Marzo</option>
-            <option value="04">Abril</option>
-            <option value="05">Mayo</option>
-            <option value="06">Junio</option>
-            <option value="07">Julio</option>
-            <option value="08">Agosto</option>
-            <option value="09">Septiembre</option>
-            <option value="10">Octubre</option>
-            <option value="11">Noviembre</option>
-            <option value="12">Diciembre</option>
-        </select>
+    <div class="container">
+        <div class="card">
+            <div class="header">
+                <div class="current-date">
+                    <span>📅</span>
+                    <span id="current-date">Cargando fecha...</span>
+                </div>
+                <h1>🎂 COCOLAB COONARTAX 2026</h1>
+                <p class="subtitle">Consulta las fechas de cumpleaños de directivos y empleados</p>
+            </div>
+            
+            <div id="birthdays-this-month"></div>
+            
+            <div class="filters">
+                <div class="form-group">
+                    <label for="month-filter">Filtrar por mes</label>
+                    <select id="month-filter">
+                        <option value="">Todos los meses</option>
+                        <option value="enero">Enero</option>
+                        <option value="febrero">Febrero</option>
+                        <option value="marzo">Marzo</option>
+                        <option value="abril">Abril</option>
+                        <option value="mayo">Mayo</option>
+                        <option value="junio">Junio</option>
+                        <option value="julio">Julio</option>
+                        <option value="agosto">Agosto</option>
+                        <option value="septiembre">Septiembre</option>
+                        <option value="octubre">Octubre</option>
+                        <option value="noviembre">Noviembre</option>
+                        <option value="diciembre">Diciembre</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="search-input">Buscar por nombre o fecha</label>
+                    <input type="text" id="search-input" placeholder="Buscar...">
+                </div>
+            </div>
+            
+            <div id="birthday-list" class="birthday-list">
+                </div>
+            
+            <div id="count" class="count"></div>
+        </div>
+        
+        <footer>
+            <p>Desarrollado por William Salazar</p>
+        </footer>
     </div>
 
-    <div id="birthdayList" class="birthday-grid"></div>
-
-    <footer>
-        <p>&copy; 2026 COCOLAB COONARTAX | Gestión de Talento Humano</p>
-    </footer>
-</div>
-
-<script>
-    const birthdays = [
-        { name: "Ramiro Herrera", date: "2025-01-27" },
-        { name: "Diego Mora", date: "2025-01-30" },
-        { name: "Amanda Villarreal", date: "2025-01-31" },
-        { name: "Don Bayardo Eraso", date: "2025-02-09" },
-        { name: "Diana Quintero", date: "2025-02-21" },
-        { name: "Ayde Ipaz", date: "2025-03-03" },
-        { name: "Yamit Linares", date: "2025-03-06" },
-        { name: "Jaime Bastidas", date: "2025-03-14" },
-        { name: "Wilson Mora", date: "2025-03-22" },
-        { name: "Milena Gonzalez", date: "2025-03-26" },
-        { name: "Fernando Chamorro", date: "2025-04-10" },
-        { name: "Alejandra Florez", date: "2025-04-15" },
-        { name: "Elizabeth Rosero", date: "2025-05-07" },
-        { name: "Don Wilson Diaz", date: "2025-05-12" },
-        { name: "Darcy Valentina", date: "2025-06-17" },
-        { name: "Don Jorge Meza", date: "2025-07-03" },
-        { name: "Don Victor Orejuela", date: "2025-07-25" },
-        { name: "Andrea Cabrera", date: "2025-08-04" },
-        { name: "Leydi Bastidas", date: "2025-08-23" },
-        { name: "Dra. Alexandra", date: "2025-08-24" },
-        { name: "Alemao Rosero", date: "2025-08-25" },
-        { name: "Fabian Villota", date: "2025-08-25" },
-        { name: "Adali Delgado", date: "2025-09-10" },
-        { name: "Andres Salazar", date: "2025-09-28" },
-        { name: "Carlos Figueroa", date: "2025-10-06" },
-        { name: "Ximena Meneses", date: "2025-10-21" },
-        { name: "William Salazar", date: "2025-12-01" },
-        { name: "Doris Rosero", date: "2025-12-02" },
-        { name: "Don Ramiro Meza", date: "2025-12-25" }
-    ];
-
-    function render() {
-        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-        const monthTerm = document.getElementById('monthFilter').value;
-        const list = document.getElementById('birthdayList');
-        const now = new Date();
-        const currentMonth = String(now.getMonth() + 1).padStart(2, '0');
-
-        list.innerHTML = birthdays
-            .filter(b => {
-                const bMonth = b.date.split('-')[1];
-                return b.name.toLowerCase().includes(searchTerm) && 
-                       (monthTerm === "" || bMonth === monthTerm);
-            })
-            .map(b => {
-                const [y, m, d] = b.date.split('-');
-                const isThisMonth = m === currentMonth;
-                return `
-                    <div class="birthday-card ${isThisMonth ? 'highlight' : ''}">
-                        <div class="info">
-                            <div class="avatar">${b.name[0]}</div>
-                            <div>
-                                <strong>${b.name}</strong>
-                                <div style="font-size: 0.8rem; color: #6b7280">${isThisMonth ? '¡Cumple este mes! 🎂' : ''}</div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Datos actualizados según el nuevo listado de Excel
+            const birthdays = [
+                { date: '27-ene', name: 'Ramiro Herrera', month: 'enero' },
+                { date: '30-ene', name: 'Diego Mora', month: 'enero' },
+                { date: '31-ene', name: 'Amanda Villarreal', month: 'enero' },
+                { date: '9-feb', name: 'Don Bayardo Eraso', month: 'febrero' },
+                { date: '21-feb', name: 'Diana Quintero', month: 'febrero' },
+                { date: '3-mar', name: 'Ayde Ipaz', month: 'marzo' },
+                { date: '22-mar', name: 'Wilson Mora', month: 'marzo' },
+                { date: '26-mar', name: 'Milena Gonzalez', month: 'marzo' },
+                { date: '10-abr', name: 'Fernando Chamorro', month: 'abril' },
+                { date: '15-abr', name: 'Alejandra Florez', month: 'abril' },
+                { date: '7-may', name: 'Elizabeth Rosero', month: 'mayo' },
+                { date: '12-may', name: 'Don Wilson Diaz', month: 'mayo' },
+                { date: '14-jun', name: 'Diana Caicedo', month: 'junio' },
+                { date: '17-jun', name: 'Darcy Valentina', month: 'junio' },
+                { date: '3-jul', name: 'Don Jorge Meza', month: 'julio' },
+                { date: '25-jul', name: 'Don Victor Orejuela', month: 'julio' },
+                { date: '4-ago', name: 'Andrea Cabrera', month: 'agosto' },
+                { date: '23-ago', name: 'Leydi Bastidas', month: 'agosto' },
+                { date: '24-ago', name: 'Dra. Alexandra', month: 'agosto' },
+                { date: '25-ago', name: 'Alemao Rosero', month: 'agosto' },
+                { date: '25-ago', name: 'Fabian Villota', month: 'agosto' },
+                { date: '10-sep', name: 'Adali Delgado', month: 'septiembre' },
+                { date: '28-sep', name: 'Andres Morales', month: 'septiembre' },
+                { date: '29-sep', name: 'Doña Albita', month: 'septiembre' },
+                { date: '12-oct', name: 'Alexander Velasco', month: 'octubre' },
+                { date: '4-dic', name: 'Don Luis Maya', month: 'diciembre' },
+                { date: '6-dic', name: 'Yelene Ramos', month: 'diciembre' },
+                { date: '15-dic', name: 'Don Luis Sanchez', month: 'diciembre' },
+                { date: '24-dic', name: 'William Salazar', month: 'diciembre' }
+            ];
+            
+            const currentDateElement = document.getElementById('current-date');
+            const birthdaysThisMonthElement = document.getElementById('birthdays-this-month');
+            const birthdayListElement = document.getElementById('birthday-list');
+            const countElement = document.getElementById('count');
+            const monthFilter = document.getElementById('month-filter');
+            const searchInput = document.getElementById('search-input');
+            
+            function formatDateToSpanish(date) {
+                const months = [
+                    'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+                    'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+                ];
+                return `${date.getDate()} de ${months[date.getMonth()]} de ${date.getFullYear()}`;
+            }
+            
+            function getMonthName(monthAbbr) {
+                const monthMap = {
+                    'ene': 'Enero', 'feb': 'Febrero', 'mar': 'Marzo', 'abr': 'Abril',
+                    'may': 'Mayo', 'jun': 'Junio', 'jul': 'Julio', 'ago': 'Agosto',
+                    'sep': 'Septiembre', 'oct': 'Octubre', 'nov': 'Noviembre', 'dic': 'Diciembre'
+                };
+                return monthMap[monthAbbr] || monthAbbr;
+            }
+            
+            function formatDate(dateStr) {
+                const [day, monthAbbr] = dateStr.split('-');
+                return `${day} de ${getMonthName(monthAbbr)}`;
+            }
+            
+            function updateCurrentDate() {
+                const now = new Date();
+                currentDateElement.textContent = formatDateToSpanish(now);
+                const currentMonth = [
+                    'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+                    'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+                ][now.getMonth()];
+                
+                monthFilter.value = currentMonth;
+                renderBirthdays();
+                renderBirthdaysThisMonth();
+            }
+            
+            function renderBirthdaysThisMonth() {
+                const now = new Date();
+                const currentMonthName = [
+                    'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+                    'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+                ][now.getMonth()];
+                
+                const birthdaysThisMonth = birthdays.filter(birthday => birthday.month === currentMonthName);
+                
+                if (birthdaysThisMonth.length > 0) {
+                    let html = `
+                        <div class="birthdays-month">
+                            <h3><span>🎉</span> Cumpleaños este mes (${getMonthName(currentMonthName.substring(0, 3))})</h3>
+                            <div class="birthdays-grid">
+                    `;
+                    birthdaysThisMonth.forEach(birthday => {
+                        const day = birthday.date.split('-')[0];
+                        html += `
+                            <div class="birthday-item-small">
+                                <div class="day-circle">${day}</div>
+                                <span class="font-medium">${birthday.name}</span>
                             </div>
+                        `;
+                    });
+                    html += `</div></div>`;
+                    birthdaysThisMonthElement.innerHTML = html;
+                } else {
+                    birthdaysThisMonthElement.innerHTML = '';
+                }
+            }
+            
+            function renderBirthdays() {
+                const selectedMonth = monthFilter.value;
+                const searchTerm = searchInput.value.toLowerCase();
+                
+                const filteredBirthdays = birthdays.filter(birthday => {
+                    const matchesMonth = !selectedMonth || birthday.month === selectedMonth;
+                    const matchesSearch = !searchTerm || 
+                        birthday.name.toLowerCase().includes(searchTerm) ||
+                        birthday.date.includes(searchTerm);
+                    return matchesMonth && matchesSearch;
+                });
+                
+                if (filteredBirthdays.length > 0) {
+                    let html = '';
+                    filteredBirthdays.forEach(birthday => {
+                        const firstLetter = birthday.name.charAt(0);
+                        const monthAbbr = birthday.date.split('-')[1];
+                        html += `
+                            <div class="birthday-item">
+                                <div class="birthday-content">
+                                    <div class="birthday-info">
+                                        <div class="avatar">${firstLetter}</div>
+                                        <div class="birthday-details">
+                                            <h3>${birthday.name}</h3>
+                                            <p class="birthday-date">${formatDate(birthday.date)}</p>
+                                        </div>
+                                    </div>
+                                    <div class="month-tag">${getMonthName(monthAbbr)}</div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    birthdayListElement.innerHTML = html;
+                    countElement.innerHTML = `<p>Mostrando ${filteredBirthdays.length} de ${birthdays.length} cumpleaños</p>`;
+                } else {
+                    birthdayListElement.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">🎂</div>
+                            <h3>No se encontraron cumpleaños</h3>
+                            <p>Intenta con otro filtro o término de búsqueda</p>
                         </div>
-                        <div class="date-tag">${d} / ${m}</div>
-                    </div>
-                `;
-            }).join('');
-    }
-
-    document.getElementById('searchInput').addEventListener('input', render);
-    document.getElementById('monthFilter').addEventListener('change', render);
-    render();
-</script>
-
+                    `;
+                    countElement.innerHTML = '';
+                }
+            }
+            
+            monthFilter.addEventListener('change', renderBirthdays);
+            searchInput.addEventListener('input', renderBirthdays);
+            updateCurrentDate();
+        });
+    </script>
 </body>
 </html>
