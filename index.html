@@ -138,7 +138,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Base de datos actualizada con Don Ignacio Gomez
+            // Base de datos de empleados
             const birthdays = [
                 { date: '17-ene', name: 'Sonia Basante', month: 'enero' },
                 { date: '27-ene', name: 'Ramiro Herrera', month: 'enero' },
@@ -159,6 +159,7 @@
                 { date: '03-jul', name: 'Don Jorge Meza', month: 'julio' },
                 { date: '25-jul', name: 'Don Victor Orejuela', month: 'julio' },
                 { date: '04-ago', name: 'Andrea Cabrera', month: 'agosto' },
+                { date: '14-ago', name: 'Nicolas Diaz', month: 'agosto' },
                 { date: '23-ago', name: 'Leydi Bastidas', month: 'agosto' },
                 { date: '24-ago', name: 'Dra. Alexandra', month: 'agosto' },
                 { date: '25-ago', name: 'Alemao Rosero', month: 'agosto' },
@@ -193,7 +194,8 @@
                     });
                 }
                 document.getElementById('birthday-list').innerHTML = html;
-                document.getElementById('count').innerHTML = `Personal visualizado: ${filtered.length} de 33 empleados`;
+                // Contador automático basado en el largo del array
+                document.getElementById('count').innerHTML = `Personal visualizado: ${filtered.length} de ${birthdays.length} empleados`;
             }
 
             function init() {
