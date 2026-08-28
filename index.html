@@ -4,106 +4,191 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>COCOLAB COONARTAX 2026</title>
+    <!-- Canvas Confetti Library para efectos de fiesta -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root {
             --primary-color: #3b82f6;
             --secondary-color: #1e40af;
             --accent-color: #10b981;
             --light-bg: #f0f9ff;
-            --card-bg: #ffffff;
+            --card-bg: rgba(255, 255, 255, 0.95);
             --text-color: #1f2937;
             --text-secondary: #6b7280;
         }
         
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
         
         body {
-            background: linear-gradient(135deg, var(--light-bg), #e0f2fe);
+            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 50%, #7dd3fc 100%);
             color: var(--text-color);
             min-height: 100vh;
-            padding: 1rem;
+            padding: 1.5rem 1rem;
         }
         
-        .container { max-width: 1200px; margin: 0 auto; }
+        .container { max-width: 1100px; margin: 0 auto; }
         
         .card {
-            background-color: var(--card-bg);
-            border-radius: 1rem;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border-radius: 1.25rem;
+            box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.1), 0 10px 15px -5px rgba(0, 0, 0, 0.04);
+            padding: 2.5rem 2rem;
             margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.6);
         }
         
-        .header { text-align: center; margin-bottom: 1.5rem; }
+        .header { text-align: center; margin-bottom: 2rem; }
         
         .current-date {
             display: inline-flex;
             align-items: center;
-            padding: 0.5rem 1rem;
-            background-color: var(--secondary-color);
+            padding: 0.5rem 1.25rem;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
             color: white;
             border-radius: 9999px;
             font-size: 0.875rem;
+            font-weight: 600;
             margin-bottom: 1rem;
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+            animation: fadeInDown 0.6s ease;
         }
         
-        h1 { font-size: 2.25rem; font-weight: 700; margin-bottom: 0.5rem; }
-        .subtitle { color: var(--text-secondary); margin-bottom: 2rem; font-size: 1.1rem; }
+        h1 { font-size: 2.25rem; font-weight: 800; margin-bottom: 0.5rem; letter-spacing: -0.025em; }
+        .subtitle { color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 1.1rem; }
         
+        /* Banner de Cumpleaños del Mes con animación */
         .birthdays-month {
-            background: linear-gradient(90deg, #f0fdf4, #ecfdf5);
-            border: 1px solid #bbf7d0;
-            border-radius: 0.75rem;
-            padding: 1rem;
-            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border: 1px solid #a7f3d0;
+            border-radius: 1rem;
+            padding: 1.25rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            animation: pulseGlow 3s infinite alternate;
         }
         
-        .birthdays-month h3 { color: #065f46; margin-bottom: 0.75rem; }
+        .birthdays-month h3 { color: #065f46; margin-bottom: 0.85rem; font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem; }
         
         .birthdays-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
             gap: 0.75rem;
         }
         
         .birthday-item-small {
-            display: flex; align-items: center; padding: 0.5rem;
-            background-color: white; border-radius: 0.5rem;
+            display: flex; align-items: center; padding: 0.6rem 0.8rem;
+            background-color: white; border-radius: 0.6rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+        }
+
+        .birthday-item-small:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.08);
         }
         
         .day-circle {
-            width: 2rem; height: 2rem; background-color: var(--accent-color);
+            width: 2.25rem; height: 2.25rem;
+            background: linear-gradient(135deg, #10b981, #059669);
             border-radius: 50%; display: flex; align-items: center;
-            justify-content: center; color: white; font-weight: 700; margin-right: 0.75rem;
+            justify-content: center; color: white; font-weight: 700;
+            margin-right: 0.75rem; flex-shrink: 0;
+            font-size: 0.9rem;
         }
-        
+
+        /* Filtros interactivos */
         .filters { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; }
         @media (max-width: 768px) { .filters { grid-template-columns: 1fr; } }
         
-        select, input { width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 0.5rem; }
-        
-        .birthday-list { display: grid; gap: 1rem; }
-        .birthday-item {
-            background: linear-gradient(90deg, #eff6ff, #dbeafe);
-            border-left: 4px solid var(--primary-color);
-            border-radius: 0.5rem; padding: 1rem;
+        select, input {
+            width: 100%; padding: 0.85rem 1rem;
+            border: 1px solid #cbd5e1; border-radius: 0.75rem;
+            font-size: 0.95rem; outline: none;
+            transition: all 0.2s ease;
+            background-color: #f8fafc;
+        }
+
+        select:focus, input:focus {
+            border-color: var(--primary-color);
+            background-color: #fff;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
         }
         
-        .birthday-content { display: flex; align-items: center; justify-content: space-between; }
+        /* Lista e Tarjetas de Cumpleaños */
+        .birthday-list { display: grid; gap: 0.85rem; }
+        
+        .birthday-item {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-left: 5px solid var(--primary-color);
+            border-radius: 0.75rem;
+            padding: 1rem 1.25rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeInUp 0.4s ease forwards;
+        }
+
+        .birthday-item:hover {
+            transform: translateX(4px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
+            border-left-color: var(--secondary-color);
+        }
+        
+        .birthday-content { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
         .birthday-info { display: flex; align-items: center; gap: 1rem; }
+        
         .avatar {
-            width: 3rem; height: 3rem; background-color: var(--primary-color);
+            width: 3rem; height: 3rem;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
             border-radius: 50%; display: flex; align-items: center;
             justify-content: center; color: white; font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 8px rgba(59, 130, 246, 0.25);
         }
+
+        .month-tag {
+            background-color: #eff6ff; color: var(--primary-color);
+            padding: 0.35rem 0.85rem; border-radius: 9999px;
+            font-size: 0.8rem; font-weight: 600; text-transform: capitalize;
+        }
+
+        .btn-celebrate {
+            background: none; border: none; font-size: 1.3rem; cursor: pointer;
+            transition: transform 0.2s ease; padding: 0.2rem;
+        }
+
+        .btn-celebrate:hover { transform: scale(1.3) rotate(10deg); }
         
         .no-data {
-            text-align: center; padding: 2rem; color: var(--text-secondary);
-            background: #f9fafb; border-radius: 0.5rem; border: 2px dashed #e5e7eb;
+            text-align: center; padding: 3rem 1rem; color: var(--text-secondary);
+            background: #f8fafc; border-radius: 0.75rem; border: 2px dashed #cbd5e1;
+            animation: fadeIn 0.4s ease;
         }
         
-        .count { text-align: center; margin-top: 1.5rem; color: var(--text-secondary); font-weight: bold; }
-        footer { text-align: center; padding: 1rem; color: var(--text-secondary); }
+        .count { text-align: center; margin-top: 1.5rem; color: var(--text-secondary); font-weight: 600; font-size: 0.9rem; }
+        footer { text-align: center; padding: 1rem; color: var(--text-secondary); font-size: 0.9rem; }
+
+        /* Animaciones CSS */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.1); }
+            100% { box-shadow: 0 0 15px 2px rgba(16, 185, 129, 0.25); }
+        }
     </style>
 </head>
 <body>
@@ -111,8 +196,8 @@
         <div class="card">
             <div class="header">
                 <div class="current-date"><span id="current-date"></span></div>
-                <h1>🎂 COCOLAB COONARTAX 2026</h1>
-                <p class="subtitle">Listado oficial de cumpleaños 🎂</p>
+                <h1 onclick="triggerConfetti()" style="cursor: pointer;" title="¡Haz clic para celebrar!">🎂 COCOLAB COONARTAX 2026</h1>
+                <p class="subtitle">Listado oficial de cumpleaños 🎈</p>
             </div>
             
             <div id="birthdays-this-month"></div>
@@ -127,57 +212,66 @@
                     <option value="septiembre">Septiembre</option><option value="octubre">Octubre</option>
                     <option value="noviembre">Noviembre</option><option value="diciembre">Diciembre</option>
                 </select>
-                <input type="text" id="search-input" placeholder="Buscar empleado...">
+                <input type="text" id="search-input" placeholder="🔍 Buscar empleado por nombre...">
             </div>
             
             <div id="birthday-list" class="birthday-list"></div>
             <div id="count" class="count"></div>
         </div>
-        <footer><p>Desarrollado por William Salazar</p></footer>
+        <footer><p>Desarrollado por William Salazar • 2026</p></footer>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Base de datos de empleados
+            // Base de datos de empleados (Lista actualizada)
             const birthdays = [
-  { date: '17-ene', name: 'Sonia Basante', month: 'enero' },
-  { date: '27-ene', name: 'Ramiro Herrera', month: 'enero' },
-  { date: '30-ene', name: 'Don Diego Mora', month: 'enero' },
-  { date: '31-ene', name: 'Ing. Amanda Villarreal', month: 'enero' },
-  { date: '09-feb', name: 'Don Bayardo Eraso', month: 'febrero' },
-  { date: '21-feb', name: 'Diana Quintero', month: 'febrero' },
-  { date: '03-mar', name: 'Dra. Ayde Ipaz', month: 'marzo' },
-  { date: '22-mar', name: 'Wilson Mora', month: 'marzo' },
-  { date: '26-mar', name: 'Milena Gonzalez', month: 'marzo' },
-  { date: '10-abr', name: 'Ing. Fernando Chamorro', month: 'abril' },
-  { date: '15-abr', name: 'Alejandra Florez', month: 'abril' },
-  { date: '18-abr', name: 'Don Omar Guerrero', month: 'abril' },
-  { date: '12-may', name: 'Don Wilson Diaz', month: 'mayo' },
-  { date: '14-may', name: 'Cristofer Figueroa', month: 'mayo' },
-  { date: '17-jun', name: 'Darcy Valentina', month: 'junio' },
-  { date: '03-jul', name: 'Don Jorge Meza', month: 'julio' },
-  { date: '25-jul', name: 'Don Victor Orejuela', month: 'julio' },
-  { date: '04-ago', name: 'Andrea Cabrera', month: 'agosto' },
-  { date: '05-ago', name: 'Linny Ortega', month: 'agosto' },
-  { date: '23-ago', name: 'Leydi Bastidas', month: 'agosto' },
-  { date: '24-ago', name: 'Dra. Alexandra', month: 'agosto' },
-  { date: '25-ago', name: 'Alemao Rosero', month: 'agosto' },
-  { date: '25-ago', name: 'Dr. Fabian Villota', month: 'agosto' },
-  { date: '10-sep', name: 'Adali Delgado', month: 'septiembre' },
-  { date: '25-sep', name: 'Don Ignacio Gomez', month: 'septiembre' },
-  { date: '29-sep', name: 'Doña Albita', month: 'septiembre' },
-  { date: '12-oct', name: 'Alexander Velasco', month: 'octubre' },
-  { date: '20-oct', name: 'Don William Pantoja', month: 'octubre' },
-  { date: '02-dic', name: 'Axl Hormaza', month: 'diciembre' },
-  { date: '02-dic', name: 'Don Jaime Folleco', month: 'diciembre' },
-  { date: '04-dic', name: 'Don Luis Maya', month: 'diciembre' },
-  { date: '06-dic', name: 'Yelene Ramos', month: 'diciembre' },
-  { date: '15-dic', name: 'Don Luis Sanchez', month: 'diciembre' },
-  { date: '24-dic', name: 'William Salazar', month: 'diciembre' }
-];
+              { date: '17-ene', name: 'Sonia Basante', month: 'enero' },
+              { date: '27-ene', name: 'Ramiro Herrera', month: 'enero' },
+              { date: '30-ene', name: 'Don Diego Mora', month: 'enero' },
+              { date: '31-ene', name: 'Ing. Amanda Villarreal', month: 'enero' },
+              { date: '09-feb', name: 'Don Bayardo Eraso', month: 'febrero' },
+              { date: '21-feb', name: 'Diana Quintero', month: 'febrero' },
+              { date: '03-mar', name: 'Dra. Ayde Ipaz', month: 'marzo' },
+              { date: '22-mar', name: 'Wilson Mora', month: 'marzo' },
+              { date: '26-mar', name: 'Milena Gonzalez', month: 'marzo' },
+              { date: '10-abr', name: 'Ing. Fernando Chamorro', month: 'abril' },
+              { date: '15-abr', name: 'Alejandra Florez', month: 'abril' },
+              { date: '18-abr', name: 'Don Omar Guerrero', month: 'abril' },
+              { date: '12-may', name: 'Don Wilson Diaz', month: 'mayo' },
+              { date: '14-may', name: 'Cristofer Figueroa', month: 'mayo' },
+              { date: '17-jun', name: 'Darcy Valentina', month: 'junio' },
+              { date: '03-jul', name: 'Don Jorge Meza', month: 'julio' },
+              { date: '25-jul', name: 'Don Victor Orejuela', month: 'julio' },
+              { date: '04-ago', name: 'Andrea Cabrera', month: 'agosto' },
+              { date: '05-ago', name: 'Linny Ortega', month: 'agosto' },
+              { date: '23-ago', name: 'Leydi Bastidas', month: 'agosto' },
+              { date: '24-ago', name: 'Dra. Alexandra', month: 'agosto' },
+              { date: '25-ago', name: 'Alemao Rosero', month: 'agosto' },
+              { date: '25-ago', name: 'Dr. Fabian Villota', month: 'agosto' },
+              { date: '10-sep', name: 'Adali Delgado', month: 'septiembre' },
+              { date: '25-sep', name: 'Don Ignacio Gomez', month: 'septiembre' },
+              { date: '29-sep', name: 'Doña Albita', month: 'septiembre' },
+              { date: '12-oct', name: 'Alexander Velasco', month: 'octubre' },
+              { date: '20-oct', name: 'Don William Pantoja', month: 'octubre' },
+              { date: '02-dic', name: 'Axl Hormaza', month: 'diciembre' },
+              { date: '02-dic', name: 'Don Jaime Folleco', month: 'diciembre' },
+              { date: '04-dic', name: 'Don Luis Maya', month: 'diciembre' },
+              { date: '06-dic', name: 'Yelene Ramos', month: 'diciembre' },
+              { date: '15-dic', name: 'Don Luis Sanchez', month: 'diciembre' },
+              { date: '24-dic', name: 'William Salazar', month: 'diciembre' }
+            ];
 
             const monthMap = { 'ene': 'Enero', 'feb': 'Febrero', 'mar': 'Marzo', 'abr': 'Abril', 'may': 'Mayo', 'jun': 'Junio', 'jul': 'Julio', 'ago': 'Agosto', 'sep': 'Septiembre', 'oct': 'Octubre', 'nov': 'Noviembre', 'dic': 'Diciembre' };
             const monthList = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+
+            // Paleta de colores dinámicos para los avatares
+            const avatarColors = ['#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899', '#06b6d4'];
+
+            function getAvatarColor(name) {
+                let charCodeSum = 0;
+                for (let i = 0; i < name.length; i++) charCodeSum += name.charCodeAt(i);
+                return avatarColors[charCodeSum % avatarColors.length];
+            }
 
             function render() {
                 const selectedMonth = document.getElementById('month-filter').value;
@@ -186,16 +280,31 @@
                 
                 let html = '';
                 if (filtered.length === 0) {
-                    html = '<div class="no-data">📅 No hay cumpleaños registrados para este mes.</div>';
+                    html = '<div class="no-data">🔍 No se encontraron empleados con los criterios de búsqueda.</div>';
                 } else {
-                    filtered.forEach(b => {
+                    filtered.forEach((b, index) => {
                         const [day, mAbbr] = b.date.split('-');
-                        html += `<div class="birthday-item"><div class="birthday-content"><div class="birthday-info"><div class="avatar">${b.name.trim()[0]}</div><div><h3>${b.name}</h3><p class="birthday-date">${parseInt(day)} de ${monthMap[mAbbr]}</p></div></div><div class="month-tag">${monthMap[mAbbr]}</div></div></div>`;
+                        const avatarBg = getAvatarColor(b.name);
+                        html += `
+                        <div class="birthday-item" style="animation-delay: ${index * 0.04}s">
+                            <div class="birthday-content">
+                                <div class="birthday-info">
+                                    <div class="avatar" style="background: ${avatarBg}">${b.name.trim()[0]}</div>
+                                    <div>
+                                        <h3 style="font-size: 1.05rem; font-weight: 600;">${b.name}</h3>
+                                        <p style="color: var(--text-secondary); font-size: 0.9rem;">${parseInt(day)} de ${monthMap[mAbbr]}</p>
+                                    </div>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                    <button class="btn-celebrate" onclick="triggerConfetti()" title="¡Celebrar!">🎉</button>
+                                    <div class="month-tag">${monthMap[mAbbr]}</div>
+                                </div>
+                            </div>
+                        </div>`;
                     });
                 }
                 document.getElementById('birthday-list').innerHTML = html;
-                // Contador automático basado en el largo del array
-                document.getElementById('count').innerHTML = `Personal visualizado: ${filtered.length} de ${birthdays.length} empleados`;
+                document.getElementById('count').innerHTML = `Mostrando <b>${filtered.length}</b> de <b>${birthdays.length}</b> empleados registrados`;
             }
 
             function init() {
@@ -206,11 +315,17 @@
                 
                 const thisMonth = birthdays.filter(b => b.month === currentMonthName);
                 if(thisMonth.length > 0) {
-                    let topHtml = `<div class="birthdays-month"><h3>🎉 Cumpleaños de ${currentMonthName.toUpperCase()}</h3><div class="birthdays-grid">`;
+                    let topHtml = `<div class="birthdays-month"><h3>🎉 CUMPLEAÑOS DE ${currentMonthName.toUpperCase()}</h3><div class="birthdays-grid">`;
                     thisMonth.forEach(b => {
-                        topHtml += `<div class="birthday-item-small"><div class="day-circle">${parseInt(b.date.split('-')[0])}</div><span>${b.name}</span></div>`;
+                        topHtml += `
+                        <div class="birthday-item-small" onclick="triggerConfetti()">
+                            <div class="day-circle">${parseInt(b.date.split('-')[0])}</div>
+                            <span style="font-weight: 600; font-size: 0.9rem;">${b.name}</span>
+                        </div>`;
                     });
                     document.getElementById('birthdays-this-month').innerHTML = topHtml + '</div></div>';
+                    // Lanzar confeti al cargar si hay cumpleañeros este mes
+                    setTimeout(triggerConfetti, 500);
                 }
                 render();
             }
@@ -219,6 +334,17 @@
             document.getElementById('search-input').addEventListener('input', render);
             init();
         });
+
+        // Función para efecto de Confeti
+        function triggerConfetti() {
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 70,
+                    spread: 60,
+                    origin: { y: 0.7 }
+                });
+            }
+        }
     </script>
 </body>
 </html>
